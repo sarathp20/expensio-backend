@@ -1,0 +1,301 @@
+.dashboard {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  padding-bottom: 110px;
+  overflow-x: hidden;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loadingDonut {
+  animation: spin 1.4s linear infinite;
+  transform-box: fill-box;   // makes transform relative to the SVG's own bounding box
+  transform-origin: 50% 50%; // now reliably rotates around the visual center
+  will-change: transform;
+  pointer-events: none;      // avoids accidental hover/click on segments while spinning
+}
+
+// ── Top bar ───────────────────────────────────────────────
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 22px 0;
+}
+
+.logo {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+
+.addBtn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  color: var(--accent);
+  border: 0.5px solid var(--accent-border);
+  padding: 5px 13px;
+  border-radius: 20px;
+  background: var(--accent-bg);
+  transition: opacity 0.15s;
+  &:hover { opacity: 0.8; }
+}
+
+// ── Hero donut ────────────────────────────────────────────
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 22px 18px;
+}
+
+.donutWrap {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  flex-shrink: 0;
+}
+
+.donutSvg {
+  width: 180px;
+  height: 180px;
+  display: block;
+}
+
+.donutCenter {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+}
+
+.donutLabel {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+
+.donutAmount {
+  font-size: 26px;
+  font-weight: 500;
+  font-family: var(--font-mono);
+  color: var(--text);
+  letter-spacing: -1.5px;
+  line-height: 1;
+}
+
+.donutSub {
+  font-size: 10px;
+  color: var(--text3);
+  font-family: var(--font-mono);
+  margin-top: 1px;
+}
+
+// ── Legend ────────────────────────────────────────────────
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 14px;
+  margin-top: 14px;
+  padding: 0 22px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.legendDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legendName {
+  font-size: 10px;
+  color: var(--text2);
+  letter-spacing: 0.2px;
+}
+
+// ── Filter tabs ───────────────────────────────────────────
+.filters {
+  display: flex;
+  border-bottom: 0.5px solid var(--border);
+  padding: 14px 22px 0;
+  margin-top: 16px;
+}
+
+.filterTab {
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--text3);
+  padding: 0 14px 10px;
+  background: none;
+  border: none;
+  border-bottom: 1.5px solid transparent;
+  margin-bottom: -0.5px;
+  transition: all 0.15s;
+
+  &:first-child { padding-left: 0; }
+
+  &.active {
+    color: var(--text);
+    border-bottom-color: var(--text);
+    font-weight: 500;
+  }
+}
+
+// ── Category list ─────────────────────────────────────────
+.list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  gap: 8px;
+  color: var(--text3);
+  font-size: 13px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+// ── Queue — floats above bottom bar, grows upward ─────────
+.queueSection {
+  position: fixed;
+  bottom: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 0 14px 6px;
+  pointer-events: none;
+  max-height: 60vh;
+  overflow: hidden;
+}
+
+// ── Bottom bar ────────────────────────────────────────────
+.bottomBar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  background: var(--bg);
+  border-top: 0.5px solid var(--border);
+  padding: 12px 16px 20px;
+}
+
+.inputRow {
+  display: flex;
+  align-items: stretch;
+  border: 0.5px solid var(--border-strong);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--surface);
+
+  &:focus-within {
+    border-color: var(--accent-border);
+  }
+}
+
+.inputField {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 13px 14px;
+  font-size: 13px;
+  color: var(--text);
+  resize: none;
+  min-height: 46px;
+  max-height: 100px;
+  line-height: 1.4;
+  &::placeholder { color: var(--text3); }
+}
+
+.aiBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  background: var(--accent);
+  border: none;
+  gap: 2px;
+  min-width: 54px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+
+  i { color: white; font-size: 15px; }
+  span {
+    font-size: 8px;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  &:hover { opacity: 0.88; }
+  &:disabled { opacity: 0.4; }
+}
+
+.inputHint {
+  font-size: 10px;
+  color: var(--text3);
+  text-align: center;
+  margin-top: 7px;
+  letter-spacing: 0.3px;
+}
+
+.shimmer {
+  height: 9px;
+  border-radius: 5px;
+  background: linear-gradient(
+    90deg,
+    var(--surface2) 25%,
+    var(--border-strong) 50%,
+    var(--surface2) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
