@@ -16,22 +16,28 @@ router.get('/', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
+  let retries = 3
+  while (retries > 0) {
     try {
-        const expense = await prisma.expense.create({
-            data: {
-                description: req.body.description,
-                amount: req.body.amount,
-                categoryId: req.body.categoryId,
-                subcategory: req.body.subcategory,
-                date: req.body.date ? new Date(req.body.date) : new Date()
-            },
-            include: { category: true }
-        })
-        res.json(expense)
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({ error: 'Something went wrong' })
+      const expense = await prisma.expense.create({
+        data: {
+          description: req.body.description,
+          amount:      req.body.amount,
+          categoryId:  req.body.categoryId,
+          subcategory: req.body.subcategory,
+          date: req.body.date ? new Date(req.body.date) : new Date()
+        },
+        include: { category: true }
+      })
+      return res.json(expense)
+    } catch (error: any) {
+      retries--
+      if (retries === 0 || error?.code !== 'P2024') {
+        return res.status(500).json({ error: 'Something went wrong' })
+      }
+      await new Promise(r => setTimeout(r, 500))
     }
+  }
 })
 
 router.put('/:id', async (req, res) => {
